@@ -12,17 +12,15 @@ public class CarController : BaseController
         _carView = LoadView();
     }
 
+    private CarView LoadView()
+    {
+        var objectCar = Object.Instantiate(ResourceLoader.LoadPrefab(_viewPath));
+        AddGameObjects(objectCar);
+        return objectCar.GetComponent<CarView>();
+    }
+
     public GameObject GetView()
     {
         return _carView.gameObject;
     }
-
-    private CarView LoadView()
-    {
-        var objectCar = Object.Instantiate(ResourceLoader.LoadPrefab(_viewPath));
-        AddGameObject(objectCar);
-        return objectCar.GetComponent<CarView>();
-    }
-
-
 }

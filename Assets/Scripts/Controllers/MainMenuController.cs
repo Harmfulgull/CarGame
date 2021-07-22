@@ -1,61 +1,38 @@
-﻿
-using UnityEngine;
-
+﻿using UnityEngine;
+using UnityEngine.Advertisements;
 public class MainMenuController : BaseController
 {
-    private readonly ResourcePath _viewPath = new ResourcePath { PathResource = "Prefabs/MainMenu" };
+    private readonly ResourcePath _viewPath = new ResourcePath { PathResource = "Prefabs/mainMenu" };
     private readonly ProfilePlayer _profilePlayer;
-    private readonly MainMenuView _mainMenuView;
-    private MainMenuController _mainMenuController;
-    private readonly Transform _placeForUI;
-    private GameController _gameController;
+    private readonly MainMenuView _view;
 
-
-    public MainMenuController(Transform placeForUI, ProfilePlayer profilePlayer)
+    public MainMenuController(Transform placeForUi, ProfilePlayer profilePlayer)
     {
         _profilePlayer = profilePlayer;
-        _mainMenuView = LoadView(placeForUI);
-        _mainMenuView.Init(StartGame);
-        OnChangeState(_profilePlayer.CurrentState.Value);
-        profilePlayer.CurrentState.SubscribeOnChange(OnChangeState);
-
+        _view = LoadView(placeForUi);
+        _view.Init(StartGame);
+    
     }
 
-    private MainMenuView LoadView(Transform placeForUI)
+    private MainMenuView LoadView(Transform placeForUi)
     {
-        var @object = Object.Instantiate(ResourceLoader.LoadPrefab(_viewPath), placeForUI);
-        AddGameObject(@object);
-        return @object.GetComponent<MainMenuView>();
+        var objectView = Object.Instantiate(ResourceLoader.LoadPrefab(_viewPath), placeForUi, false);
+        AddGameObjects(objectView);
+        
+
+        return objectView.GetComponent<MainMenuView>();
     }
 
     private void StartGame()
     {
         _profilePlayer.CurrentState.Value = GameState.Game;
+        _profilePlayer.AnaliticsTools.SendMessage("start_game", ("time", Time.realtimeSinceStartup));
+        _profilePlayer.AdsShower.ShowRewardedVideo();
+        Advertisement.AddListener(_profilePlayer.AdsListener);
     }
 
-    //protected override void OnDisponse()
-    //{
-    //    _mainMenuView.ButtonStart.onClick.RemoveAllListeners();
-    //    base.OnDisponse();
-    //}
-
-    private void OnChangeState(GameState state)
+    protected override void OnDispose()
     {
-        switch (state)
-        {
-            case GameState.Start:
-                _mainMenuController = new MainMenuController(_placeForUI, _profilePlayer);
-                _gameController?.Dispose();
-                break;
-            case GameState.Game:
-                _gameController = new GameController(_profilePlayer);
-                _mainMenuController?.Dispose();
-                break;
-            default:
-                _mainMenuController?.Dispose();
-                _gameController?.Dispose();
-                break;
-
-        }
+        Advertisement.RemoveListener(_profilePlayer.AdsListener);
     }
 }

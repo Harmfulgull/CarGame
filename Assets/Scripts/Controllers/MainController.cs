@@ -15,13 +15,12 @@ public class MainController : BaseController
         OnChangeGameState(_profilePlayer.CurrentState.Value);
         profilePlayer.CurrentState.SubscribeOnChange(OnChangeGameState);
     }
-    protected override void OnDisponse()
+    protected override void OnDispose()
     {
         _mainMenuController?.Dispose();
         _gameController?.Dispose();
-        _profilePlayer.CurrentState.UnSubscribeOnChange(OnChangeGameState);
-     
-        base.OnDisponse();
+        _profilePlayer.CurrentState.UnSubscribeOnChange(OnChangeGameState);     
+        base.OnDispose();
     }
     private void OnChangeGameState(GameState state)
     {
@@ -33,7 +32,7 @@ public class MainController : BaseController
                 break;
             case GameState.Game:
                 _gameController = new GameController(_profilePlayer);
-                _mainMenuController?.Dispose();
+                _mainMenuController?.Dispose();          
                 break;
             default:
                 _mainMenuController?.Dispose();

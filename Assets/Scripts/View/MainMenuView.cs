@@ -9,13 +9,14 @@ public class MainMenuView : MonoBehaviour
 
     public void Init(UnityAction startGame)
     {
-        _buttonStart.onClick.AddListener(startGame);
+        _buttonStart.onClick.AddListener(startGame);        
     }
 
     protected void OnDestroy()
     {
         _buttonStart.onClick.RemoveAllListeners();
     }
+
 
 
 }
