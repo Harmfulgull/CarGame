@@ -8,17 +8,20 @@ public class MainController : BaseController
     private GameController _gameController;
     private readonly Transform _placeForUi;
     private readonly ProfilePlayer _profilePlayer;
-    public MainController(Transform placeForUi, ProfilePlayer profilePlayer)
+    private  InventoryController _inventoryController;
+    private readonly List<ItemConfig> _itemConfigs;
+    public MainController(Transform placeForUi, ProfilePlayer profilePlayer, List<ItemConfig> itemConfigs)
     {
         _profilePlayer = profilePlayer;
         _placeForUi = placeForUi;
         OnChangeGameState(_profilePlayer.CurrentState.Value);
         profilePlayer.CurrentState.SubscribeOnChange(OnChangeGameState);
+        _itemConfigs = itemConfigs;
+
     }
     protected override void OnDispose()
     {
-        _mainMenuController?.Dispose();
-        _gameController?.Dispose();
+        AllClear();
         _profilePlayer.CurrentState.UnSubscribeOnChange(OnChangeGameState);     
         base.OnDispose();
     }
@@ -31,13 +34,23 @@ public class MainController : BaseController
                 _gameController?.Dispose();
                 break;
             case GameState.Game:
+                _inventoryController = new InventoryController(_itemConfigs);
+                _inventoryController.ShowInventory();
+
                 _gameController = new GameController(_profilePlayer);
                 _mainMenuController?.Dispose();          
                 break;
             default:
-                _mainMenuController?.Dispose();
-                _gameController?.Dispose();
+                AllClear();
                 break;
         }
     }
+
+    private void AllClear()
+    {
+        _inventoryController.Dispose();
+        _mainMenuController?.Dispose();
+        _gameController?.Dispose();
+    }
+
 }

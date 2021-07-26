@@ -354,6 +354,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _placeForUi: {fileID: 562962687}
   _unityAdsTools: {fileID: 2018273053}
+  itemConfigs:
+  - {fileID: 11400000, guid: 93274c0b7e1662a4bb9660576387a5f2, type: 2}
+  - {fileID: 11400000, guid: 6229b9c4af638404080e23261114e32c, type: 2}
 --- !u!1 &1990076893
 GameObject:
   m_ObjectHideFlags: 0
