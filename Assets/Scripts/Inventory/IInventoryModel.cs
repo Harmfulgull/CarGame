@@ -4,5 +4,5 @@ public interface IInventoryModel
 {
     IReadOnlyList<IItem> GetEquippedItems();
     void EquipItem(IItem item);
-    void UnEquipItem(Item item);
+    void UnEquipItem(IItem item);
 }

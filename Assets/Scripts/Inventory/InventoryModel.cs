@@ -13,7 +13,7 @@ public class InventoryModel : IInventoryModel
             return;
         _items.Add(item);
     }
-    public void UnEquipItem(Item item)
+    public void UnEquipItem(IItem item)
     {
         if (!_items.Contains(item))
             return;
