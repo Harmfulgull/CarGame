@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 public class InventoryController : BaseController, IInventoryController
 {
     private readonly IInventoryModel _inventoryModel;
     private readonly IInventoryView _inventoryView;
     private readonly ItemsRepository _upgradeItemsRepository;
-    public  IItemsRepository _itemsRepository { get; set; }
+    public IItemsRepository _itemsRepository { get; set; }
     private List<ItemConfig> itemConfigs { get; }
     public Action HideAction { get; }
     public InventoryController(List<ItemConfig> itemConfigs)
@@ -33,7 +34,7 @@ public class InventoryController : BaseController, IInventoryController
 
     public void ShowInventory(Action callback)
     {
-        
+
     }
 
     public void HideInventory()
@@ -52,7 +53,7 @@ public class InventoryController : BaseController, IInventoryController
     {
         _inventoryView.Selected -= OnItemSelected;
         _inventoryView.Deselected -= OnItemDeselected;
-        base.OnDispose(); 
+        base.OnDispose();
     }
 
     private void OnItemSelected(IItem item)

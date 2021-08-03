@@ -8,7 +8,7 @@ public class MainController : BaseController
     private GameController _gameController;
     private readonly Transform _placeForUi;
     private readonly ProfilePlayer _profilePlayer;
-    private  InventoryController _inventoryController;
+    private InventoryController _inventoryController;
     private readonly List<ItemConfig> _itemConfigs;
     public MainController(Transform placeForUi, ProfilePlayer profilePlayer, List<ItemConfig> itemConfigs)
     {
@@ -22,7 +22,7 @@ public class MainController : BaseController
     protected override void OnDispose()
     {
         AllClear();
-        _profilePlayer.CurrentState.UnSubscribeOnChange(OnChangeGameState);     
+        _profilePlayer.CurrentState.UnSubscribeOnChange(OnChangeGameState);
         base.OnDispose();
     }
     private void OnChangeGameState(GameState state)
@@ -38,7 +38,7 @@ public class MainController : BaseController
                 _inventoryController.ShowInventory();
 
                 _gameController = new GameController(_profilePlayer);
-                _mainMenuController?.Dispose();          
+                _mainMenuController?.Dispose();
                 break;
             default:
                 AllClear();

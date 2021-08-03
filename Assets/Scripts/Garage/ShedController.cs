@@ -29,8 +29,8 @@ public class ShedController : BaseController
 
         _inventoryModel = new InventoryModel();
 
-        _inventoryController
-            = new InventoryController(_inventoryModel, _upgradeItemsRepository);
+        //_inventoryController
+        //    = new InventoryController();
         AddController(_inventoryController);
     }
     public void Enter()
